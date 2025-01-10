@@ -2,7 +2,7 @@
 using VContainer;
 using VContainer.Unity;
 
-namespace _Script.Infrastructure.Factorys
+namespace _Script.Infrastructure.Factories
 {
     public class StateFactory : IStateFactory
     {

@@ -17,11 +17,9 @@ namespace _Script.Gameplay.Nodes
             Ropes.Add(rope);
         }
 
-        public void Release()
-        {
+        public void Release() => 
             Ropes.Clear();
-        }
-        
+
         private void OnMouseDown() => 
             offset = (Vector2)transform.position
                      - (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);

@@ -1,4 +1,4 @@
-﻿using _Script.Infrastructure.Factorys;
+﻿using _Script.Infrastructure.Factories;
 using _Script.Infrastructure.FSM;
 using _Script.Infrastructure.FSM.States;
 using VContainer;
@@ -30,6 +30,5 @@ namespace _Script.Infrastructure.Bootstrap
             _stateMachine.RegisterState<BootstrapState>(_stateFactory.CreateSystem<BootstrapState>());
             _stateMachine.RegisterState<SceneLoadState>(_stateFactory.CreateSystem<SceneLoadState>());
         }
-
     }
 }

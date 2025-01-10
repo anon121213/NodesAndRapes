@@ -3,5 +3,6 @@
     public interface IStaticDataProvider
     {
         AssetsReferences AssetsReferences { get; }
+        public NodesGeneratorConfig NodesGeneratorConfig { get; }
     }
 }

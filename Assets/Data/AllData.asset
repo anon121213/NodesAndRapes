@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: AllData
   m_EditorClassIdentifier: Assembly-CSharp:_Script.Infrastructure.Data.StaticData:AllData
   <AssetsReferences>k__BackingField: {fileID: 11400000, guid: a900ce2050e6c4d4280c46e37ac45cbf, type: 2}
-  <NodesGeneratorConfig>k__BackingField: {fileID: 11400000, guid: 24d00af799a319e4d92faf67fb00bc7d, type: 2}
+  <NodesGeneratorConfig>k__BackingField: {fileID: 11400000, guid: df4f34d9cf36d4946bf7735bb5f0d130, type: 2}
+  <RopesConfig>k__BackingField: {fileID: 0}

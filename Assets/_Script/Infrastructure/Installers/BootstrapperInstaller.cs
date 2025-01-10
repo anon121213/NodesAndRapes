@@ -1,4 +1,5 @@
-﻿using _Script.Infrastructure.Bootstrap;
+﻿using _Script.Gameplay;
+using _Script.Infrastructure.Bootstrap;
 using _Script.Infrastructure.Data.AddressableLoader;
 using _Script.Infrastructure.Data.StaticData;
 using _Script.Infrastructure.Factories;
@@ -22,19 +23,17 @@ namespace _Script.Infrastructure.Installers
             FsmRegisters(builder);
             RegisterFactories(builder);
             RegisterDataServices(builder);
+            RegisterGameServices(builder);
         }
 
-        private void FsmRegisters(IContainerBuilder builder)
-        {
-            builder.Register<IStateFactory, StateFactory>(Lifetime.Singleton);
+        private void FsmRegisters(IContainerBuilder builder) => 
             builder.Register<IStateMachine, StateMachine>(Lifetime.Singleton);
-        }
 
         private void RegisterFactories(IContainerBuilder builder)
         {
+            builder.Register<IStateFactory, StateFactory>(Lifetime.Singleton);
             builder.Register<IRopeFactory, RopeFactory>(Lifetime.Singleton);
             builder.Register<INodeFactory, NodeFactory>(Lifetime.Singleton);
-            builder.Register<IGameGenerator, GameGenerator>(Lifetime.Singleton);
         }
 
         private void RegisterDataServices(IContainerBuilder builder)
@@ -42,6 +41,12 @@ namespace _Script.Infrastructure.Installers
             builder.Register<ISceneLoader, SceneLoader>(Lifetime.Singleton);
             builder.Register<IAssetProvider, AssetProvider>(Lifetime.Singleton);
             builder.Register<IStaticDataProvider, StaticDataProvider>(Lifetime.Singleton).WithParameter(_allData);
+        }
+
+        private void RegisterGameServices(IContainerBuilder builder)
+        {
+            builder.Register<IGameGenerator, GameGenerator>(Lifetime.Singleton);
+            builder.Register<IIntersectionChecker, IntersectionChecker>(Lifetime.Singleton);
         }
     }
 }

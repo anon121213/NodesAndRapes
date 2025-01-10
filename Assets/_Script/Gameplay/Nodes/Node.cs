@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using _Script.Gameplay.Ropes;
 using UnityEngine;
 
@@ -6,9 +7,12 @@ namespace _Script.Gameplay.Nodes
 {
     public class Node : MonoBehaviour
     {
-        private readonly List<Rope> Ropes = new(); 
+        private readonly List<Rope> Ropes = new();
+        
         private Vector2 offset;
 
+        public event Action OnNodeDrag;
+        
         public void AddRope(Rope rope)
         {
             if (Ropes.Count > 4)
@@ -31,6 +35,8 @@ namespace _Script.Gameplay.Nodes
 
             foreach (Rope rope in Ropes) 
                 rope.UpdateRope();
+            
+            OnNodeDrag?.Invoke();
         }
     }
 }

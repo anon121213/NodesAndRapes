@@ -2,10 +2,6 @@
 using _Script.Infrastructure.Factories;
 using _Script.Infrastructure.Generator;
 using _Script.Infrastructure.ScenesLoader;
-using Cysharp.Threading.Tasks;
-using UnityEngine;
-using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.ResourceManagement.ResourceProviders;
 
 namespace _Script.Infrastructure.FSM.States
 {
@@ -32,7 +28,9 @@ namespace _Script.Infrastructure.FSM.States
 
         public async void Enter()
         {
-            await _sceneLoader.LoadScene(_staticDataProvider.AssetsReferences.MainSceneReference);
+            await _sceneLoader.LoadScene(_staticDataProvider
+                .AssetsReferences.MainSceneReference);
+            
             GenerateGame();
         }
 

@@ -1,31 +1,43 @@
-﻿using UnityEngine;
+﻿using _Script.Gameplay.Nodes;
+using _Script.Infrastructure.Data.StaticData;
+using UnityEngine;
 
 namespace _Script.Gameplay.Ropes
 {
     public class Rope : MonoBehaviour
     {
-        private LineRenderer lineRenderer;
-        
-        public Transform StartNode { get; private set; }
-        public Transform EndNode { get; private set; }
+        private LineRenderer _lineRenderer;
 
-        public void Initialize(Transform startNode,
-            Transform endNode)
+        private Material _greenMaterial;
+        private Material _redMaterial;
+        
+        public Node StartNode { get; private set; }
+        public Node EndNode { get; private set; }
+
+        public void Initialize(Node startNode,
+            Node endNode,
+            Material greenMat,
+            Material redMat)
         {
             StartNode = startNode;
             EndNode = endNode;
+            _greenMaterial = greenMat;
+            _redMaterial = redMat;
         }
         
         private void Awake()
         {
-            lineRenderer = GetComponent<LineRenderer>();
-            lineRenderer.positionCount = 2;
+            _lineRenderer = GetComponent<LineRenderer>();
+            _lineRenderer.positionCount = 2;
         }
 
         public void UpdateRope()
         {
-            lineRenderer.SetPosition(0, StartNode.position);
-            lineRenderer.SetPosition(1, EndNode.position);
+            _lineRenderer.SetPosition(0, StartNode.transform.position);
+            _lineRenderer.SetPosition(1, EndNode.transform.position);
         }
+
+        public void SetIntersection(bool isIntersection) => 
+            _lineRenderer.material = isIntersection ? _redMaterial : _greenMaterial;
     }
 }

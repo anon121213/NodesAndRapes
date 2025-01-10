@@ -5,7 +5,6 @@ using _Script.Gameplay.Pools;
 using _Script.Gameplay.Ropes;
 using _Script.Infrastructure.Data.StaticData;
 using _Script.Infrastructure.Factories;
-using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace _Script.Infrastructure.Generator
@@ -15,6 +14,7 @@ namespace _Script.Infrastructure.Generator
         private readonly IStaticDataProvider _staticDataProvider;
         private readonly IRopeFactory _ropeFactory;
         private readonly INodeFactory _nodeFactory;
+        private readonly IIntersectionChecker _intersectionChecker;
 
         private readonly HashSet<(Node, Node)> connectedPairs = new();
 
@@ -29,12 +29,14 @@ namespace _Script.Infrastructure.Generator
         private float _minX, _maxX, _minY, _maxY;
 
         public GameGenerator(IStaticDataProvider staticDataProvider,
+            IIntersectionChecker intersectionChecker,
             IRopeFactory ropeFactory,
             INodeFactory nodeFactory)
         {
             _staticDataProvider = staticDataProvider;
             _ropeFactory = ropeFactory;
             _nodeFactory = nodeFactory;
+            _intersectionChecker = intersectionChecker;
         }
 
         public void Initialize()
@@ -50,6 +52,8 @@ namespace _Script.Infrastructure.Generator
 
         public void GenerateRandomNodesAndRopes()
         {
+            UnBindChecker();
+            
             foreach (var node in _allNodes) 
                 _nodeFactory.ReturnToPool(node);
 
@@ -63,8 +67,7 @@ namespace _Script.Infrastructure.Generator
 
             GenerateNodes();
             GeneratePairs();
-
-            CheckForRopeIntersections(_allRopes);
+            BindChecker();
         }
 
         private void GenerateNodes()
@@ -84,7 +87,7 @@ namespace _Script.Infrastructure.Generator
                     if (otherNode == null || IsAlreadyConnected(firstNode, otherNode))
                         continue;
                     
-                    Rope rope = _ropeFactory.GetRope(firstNode.transform, otherNode.transform);
+                    Rope rope = _ropeFactory.GetRope(firstNode, otherNode);
 
                     firstNode.AddRope(rope);
                     otherNode.AddRope(rope);
@@ -97,27 +100,20 @@ namespace _Script.Infrastructure.Generator
             }
         }
 
-        // Проверка пересечений всех веревок
-        private void CheckForRopeIntersections(List<Rope> allRopes)
+        private void BindChecker()
         {
-            foreach (var rope1 in allRopes)
-            {
-                foreach (var rope2 in allRopes)
-                {
-                    if (rope1 == rope2)
-                        continue;
-
-                    if (!RopeUtils.AreSegmentsIntersecting(rope1.StartNode.position, rope1.EndNode.position,
-                            rope2.StartNode.position, rope2.EndNode.position)) 
-                        continue;
-                    
-                    rope1.GetComponent<LineRenderer>().startColor = Color.red;
-                    rope1.GetComponent<LineRenderer>().endColor = Color.red;
-                    rope2.GetComponent<LineRenderer>().startColor = Color.red;
-                    rope2.GetComponent<LineRenderer>().endColor = Color.red;
-                }
-            }
+            foreach (var node in _allNodes)
+                node.OnNodeDrag += OnNodeDragHandler;
         }
+
+        private void UnBindChecker()
+        {
+            foreach (var node in _allNodes)
+                node.OnNodeDrag -= OnNodeDragHandler;
+        }
+
+        private void OnNodeDragHandler() => 
+            _intersectionChecker.CheckForRopeIntersections(_allRopes);
 
         private Node GetRandomNodeExcluding(Node excludeNode, List<Node> nodes)
         {
@@ -133,11 +129,5 @@ namespace _Script.Infrastructure.Generator
 
         private bool IsAlreadyConnected(Node node1, Node node2) =>
             connectedPairs.Contains((node1, node2)) || connectedPairs.Contains((node2, node1));
-    }
-
-    public interface IGameGenerator
-    {
-        void Initialize();
-        void GenerateRandomNodesAndRopes();
     }
 }

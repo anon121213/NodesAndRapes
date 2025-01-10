@@ -7,15 +7,17 @@ namespace _Script.Infrastructure.Data.StaticData
     {
         public AssetsReferences AssetsReferences { get; }
         public NodesGeneratorConfig NodesGeneratorConfig { get; }
+        public RopesConfig RopesConfig { get; }
         
         public StaticDataProvider(AllData allData)
         {
             AssetsReferences = allData.AssetsReferences;
             NodesGeneratorConfig = allData.NodesGeneratorConfig;
+            RopesConfig = allData.RopesConfig;
         }
     }
     
-    [CreateAssetMenu(fileName = "AssetsReferences", menuName = "Data/AssetsReferences")]
+    [CreateAssetMenu(fileName = "AssetsReferences", menuName = "Data/AssetsReferences/AssetsReferences")]
     public class AssetsReferences : ScriptableObject
     {
         [field: SerializeField] public AssetReference MainSceneReference { get; private set; }
@@ -24,7 +26,7 @@ namespace _Script.Infrastructure.Data.StaticData
         [field: SerializeField] public AssetReferenceGameObject RopeReference { get; private set; }
     }
     
-    [CreateAssetMenu(fileName = "NodesGeneratorConfig", menuName = "Data/Configs")]
+    [CreateAssetMenu(fileName = "NodesGeneratorConfig", menuName = "Data/Configs/NodesGeneratorConfig")]
     public class NodesGeneratorConfig : ScriptableObject
     {
         [field: SerializeField] public int NodeCount { get; private set; } = 5;
@@ -35,11 +37,19 @@ namespace _Script.Infrastructure.Data.StaticData
         [field: SerializeField] public float MinY { get; private set; } = -5f;
         [field: SerializeField] public float MaxY { get; private set; } = 5f;
     }
+    
+    [CreateAssetMenu(fileName = "RopesConfig", menuName = "Data/Configs/RopesConfig")]
+    public class RopesConfig : ScriptableObject
+    {
+        [field: SerializeField] public AssetReference GreenMaterial { get; private set; }
+        [field: SerializeField] public AssetReference RegMaterial { get; private set; }
+    }
 
     [CreateAssetMenu(fileName = "AllData", menuName = "Data/AllData")]
     public class AllData : ScriptableObject
     {
         [field: SerializeField] public AssetsReferences AssetsReferences { get; private set; }
         [field: SerializeField] public NodesGeneratorConfig NodesGeneratorConfig { get; private set; }
+        [field: SerializeField] public RopesConfig RopesConfig { get; private set; }
     }
 }

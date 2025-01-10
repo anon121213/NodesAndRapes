@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using _Script.Gameplay.Nodes;
 using _Script.Gameplay.Pools;
 using _Script.Gameplay.Ropes;
 using _Script.Infrastructure.Data.AddressableLoader;
@@ -14,8 +14,10 @@ namespace _Script.Infrastructure.Factories
         private readonly IStaticDataProvider _staticDataProvider;
         
         private RopePool _ropePool;
-
         private GameObject _ropePrefab;
+        
+        private Material _redMat;
+        private Material _greenMat;
 
         public RopeFactory(IAssetProvider assetProvider,
             IStaticDataProvider staticDataProvider)
@@ -29,14 +31,21 @@ namespace _Script.Infrastructure.Factories
             _ropePrefab = await _assetProvider.LoadAsync<GameObject>
                 (_staticDataProvider.AssetsReferences.RopeReference);
             
+            _greenMat = await _assetProvider.LoadAsync<Material>
+                (_staticDataProvider.RopesConfig.GreenMaterial);
+            
+            _redMat = await _assetProvider.LoadAsync<Material>
+                (_staticDataProvider.RopesConfig.RegMaterial);
+            
             _ropePool = new RopePool(_ropePrefab.GetComponent<Rope>(), null, 
                 _staticDataProvider.NodesGeneratorConfig.NodeCount * 2);
         }
         
-        public Rope GetRope(Transform firstNode, Transform secondNode)
+        public Rope GetRope(Node firstNode, Node secondNode)
         {
             Rope rope = _ropePool.GetObject();
-            rope.Initialize(firstNode.transform, secondNode.transform);
+            
+            rope.Initialize(firstNode, secondNode, _greenMat, _redMat);
             
             rope.UpdateRope();
             

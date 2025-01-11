@@ -12,5 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: RopesConfig
   m_EditorClassIdentifier: Assembly-CSharp:_Script.Infrastructure.Data.StaticData:RopesConfig
-  <GreenMaterial>k__BackingField: {fileID: 0}
-  <RegMaterial>k__BackingField: {fileID: 0}
+  <GreenMaterial>k__BackingField:
+    m_AssetGUID: df053c2e2f53cff48ac64fc24537756e
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  <RegMaterial>k__BackingField:
+    m_AssetGUID: d17204744f9d6ae40801180b51f04cda
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0

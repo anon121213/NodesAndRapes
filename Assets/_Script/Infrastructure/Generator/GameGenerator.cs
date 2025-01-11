@@ -14,7 +14,6 @@ namespace _Script.Infrastructure.Generator
         private readonly IStaticDataProvider _staticDataProvider;
         private readonly IRopeFactory _ropeFactory;
         private readonly INodeFactory _nodeFactory;
-        private readonly IIntersectionChecker _intersectionChecker;
 
         private readonly HashSet<(Node, Node)> connectedPairs = new();
 
@@ -29,14 +28,12 @@ namespace _Script.Infrastructure.Generator
         private float _minX, _maxX, _minY, _maxY;
 
         public GameGenerator(IStaticDataProvider staticDataProvider,
-            IIntersectionChecker intersectionChecker,
             IRopeFactory ropeFactory,
             INodeFactory nodeFactory)
         {
             _staticDataProvider = staticDataProvider;
             _ropeFactory = ropeFactory;
             _nodeFactory = nodeFactory;
-            _intersectionChecker = intersectionChecker;
         }
 
         public void Initialize()
@@ -52,8 +49,6 @@ namespace _Script.Infrastructure.Generator
 
         public void GenerateRandomNodesAndRopes()
         {
-            UnBindChecker();
-            
             foreach (var node in _allNodes) 
                 _nodeFactory.ReturnToPool(node);
 
@@ -67,7 +62,6 @@ namespace _Script.Infrastructure.Generator
 
             GenerateNodes();
             GeneratePairs();
-            BindChecker();
         }
 
         private void GenerateNodes()
@@ -99,21 +93,6 @@ namespace _Script.Infrastructure.Generator
                 }
             }
         }
-
-        private void BindChecker()
-        {
-            foreach (var node in _allNodes)
-                node.OnNodeDrag += OnNodeDragHandler;
-        }
-
-        private void UnBindChecker()
-        {
-            foreach (var node in _allNodes)
-                node.OnNodeDrag -= OnNodeDragHandler;
-        }
-
-        private void OnNodeDragHandler() => 
-            _intersectionChecker.CheckForRopeIntersections(_allRopes);
 
         private Node GetRandomNodeExcluding(Node excludeNode, List<Node> nodes)
         {

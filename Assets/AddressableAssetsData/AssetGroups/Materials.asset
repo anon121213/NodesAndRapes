@@ -12,9 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
   m_Name: Materials
   m_EditorClassIdentifier: 
-  m_GroupName: Packed Assets
+  m_GroupName: Materials
   m_GUID: c4db3f5df755de64ba1e9e6f5e4102ff
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: d17204744f9d6ae40801180b51f04cda
+    m_Address: Assets/Art/New Material 1.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: df053c2e2f53cff48ac64fc24537756e
+    m_Address: Assets/Art/New Material.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: da6c7ac7f1d59b3448396b6e0128023c, type: 2}
   m_SchemaSet:

@@ -1,4 +1,5 @@
-﻿using _Script.Gameplay.Nodes;
+﻿using _Script.Gameplay;
+using _Script.Gameplay.Nodes;
 using _Script.Gameplay.Pools;
 using _Script.Gameplay.Ropes;
 using _Script.Infrastructure.Data.AddressableLoader;
@@ -44,8 +45,16 @@ namespace _Script.Infrastructure.Factories
         public Rope GetRope(Node firstNode, Node secondNode)
         {
             Rope rope = _ropePool.GetObject();
+
+            BoxCollider2D boxCollider = rope.GetComponent<BoxCollider2D>();
+            LineRenderer lineRenderer = rope.GetComponent<LineRenderer>();
+
+            IIntersectionChecker intersectionChecker =
+                new IntersectionChecker(boxCollider, lineRenderer,
+                    _greenMat, _redMat, _staticDataProvider);
             
-            rope.Initialize(firstNode, secondNode, _greenMat, _redMat);
+            intersectionChecker.Initialize();
+            rope.Initialize(firstNode, secondNode, intersectionChecker);
             
             rope.UpdateRope();
             

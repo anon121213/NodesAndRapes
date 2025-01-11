@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Serialization;
 
 namespace _Script.Infrastructure.Data.StaticData
 {
@@ -43,6 +44,9 @@ namespace _Script.Infrastructure.Data.StaticData
     {
         [field: SerializeField] public AssetReference GreenMaterial { get; private set; }
         [field: SerializeField] public AssetReference RegMaterial { get; private set; }
+        
+        [field: SerializeField] public float RopeThickness { get; private set; } = 0.03f; 
+        [field: SerializeField] public float ColliderPadding { get; private set; } = 0.3f; 
     }
 
     [CreateAssetMenu(fileName = "AllData", menuName = "Data/AllData")]

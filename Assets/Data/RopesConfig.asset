@@ -24,3 +24,5 @@ MonoBehaviour:
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
+  <RopeThickness>k__BackingField: 0.003
+  <ColliderPadding>k__BackingField: 0.1

@@ -5,5 +5,6 @@
         AssetsReferences AssetsReferences { get; }
         NodesGeneratorConfig NodesGeneratorConfig { get; }
         RopesConfig RopesConfig { get; }
+        ScoresConfig ScoresConfig { get; }
     }
 }

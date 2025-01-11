@@ -1,5 +1,9 @@
-﻿using _Script.Gameplay.Nodes;
+﻿using System.Collections.Generic;
+using _Script.Gameplay.Nodes;
+using _Script.Gameplay.Nodes.Mover;
+using _Script.Gameplay.Nodes.NodeUi;
 using _Script.Gameplay.Pools;
+using _Script.Gameplay.WinSystem.Checker;
 using _Script.Infrastructure.Data.AddressableLoader;
 using _Script.Infrastructure.Data.StaticData;
 using Cysharp.Threading.Tasks;
@@ -11,15 +15,20 @@ namespace _Script.Infrastructure.Factories
     {
         private readonly IAssetProvider _assetProvider;
         private readonly IStaticDataProvider _staticDataProvider;
-        
+        private readonly IWineble _winService;
+
         private GameObject _nodePrefab;
         private NodePool _nodePool;
 
+        private List<Node> _nodes = new ();
+
         public NodeFactory(IAssetProvider assetProvider,
-            IStaticDataProvider staticDataProvider)
+            IStaticDataProvider staticDataProvider,
+            IWinService winService)
         {
             _assetProvider = assetProvider;
             _staticDataProvider = staticDataProvider;
+            _winService = winService;
         }
         
         public async UniTask Initialize()
@@ -34,11 +43,28 @@ namespace _Script.Infrastructure.Factories
         public Node GetNode(float maxX, float maxY, float minX, float minY)
         {
             Node node = _nodePool.GetObject();
+
+            InitNode(node);
             
             node.transform.position = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), 0);
             node.gameObject.SetActive(true);
             
             return node;
+        }
+
+        private void InitNode(Node node)
+        {
+            if (_nodes.Contains(node)) 
+                return;
+            
+            _nodes.Add(node);
+            
+            INodeMover nodeMover = new NodeMover(node, _winService);
+            INodePresenter nodePresenter = new NodePresenter();
+            INodeView nodeView = node.GetComponent<NodeView>();
+            
+            nodePresenter.Initialize(node, nodeView);
+            node.Initialize(nodeMover, nodePresenter);
         }
 
         public void ReturnToPool(Node node) => 

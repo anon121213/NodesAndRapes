@@ -1,27 +1,33 @@
-﻿using _Script.Infrastructure.Data.StaticData;
+﻿using System;
+using _Script.Infrastructure.Data.StaticData;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace _Script.Gameplay
+namespace _Script.Gameplay.Ropes.Checker
 {
     public class IntersectionChecker : IIntersectionChecker
     {
-        private readonly BoxCollider2D _boxCollider;
-        private readonly LineRenderer _lineRenderer;
         private readonly Material _greenMaterial;
         private readonly Material _redMaterial;
         private readonly IStaticDataProvider _staticDataProvider;
+        private readonly Rope _rope;
 
         private float _ropeThickness = 0.03f; 
-        private float _colliderPadding = 0.3f; 
+        private float _colliderPadding = 0.3f;
 
-        public IntersectionChecker(BoxCollider2D boxCollider,
-            LineRenderer lineRenderer,
+        private bool _isInterception = false;
+        
+        private BoxCollider2D _boxCollider;
+        private LineRenderer _lineRenderer;
+
+        public event Action<Rope, bool> ChangeIntersection;
+        
+        public IntersectionChecker(Rope rope,
             Material greenMaterial,
             Material redMat,
             IStaticDataProvider staticDataProvider)
         {
-            _boxCollider = boxCollider;
-            _lineRenderer = lineRenderer;
+            _rope = rope;
             _greenMaterial = greenMaterial;
             _redMaterial = redMat;
             _staticDataProvider = staticDataProvider;
@@ -29,10 +35,20 @@ namespace _Script.Gameplay
 
         public void Initialize()
         {
+            _lineRenderer = _rope.GetComponent<LineRenderer>();
+            _boxCollider = _rope.GetComponent<BoxCollider2D>();
             _ropeThickness = _staticDataProvider.RopesConfig.RopeThickness;
             _colliderPadding = _staticDataProvider.RopesConfig.ColliderPadding;
         }
-        
+
+        public async void InitInterception()
+        {
+            await UniTask.Delay(100);
+            
+            if (!_isInterception) 
+                ChangeIntersection?.Invoke(_rope, true);
+        }
+
         public void UpdateBoxCollider(Vector3 startPos, Vector3 endPos)
         {
             Vector3 direction = (endPos - startPos).normalized;
@@ -51,37 +67,32 @@ namespace _Script.Gameplay
 
         private void SetIntersection(bool isIntersection)
         {
+            ChangeIntersection?.Invoke(_rope, !isIntersection);
+
+            _isInterception = isIntersection;
+            
             if (isIntersection && _lineRenderer.material != _redMaterial)
                 _lineRenderer.material = _redMaterial;
-            else if (!isIntersection && _lineRenderer.material != _greenMaterial) 
+            else if (!isIntersection && _lineRenderer.material != _greenMaterial)
                 _lineRenderer.material = _greenMaterial;
         }
 
         public void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.gameObject.CompareTag("Rope"))
+            if (collision.gameObject.CompareTag("Rope") && !_isInterception)
                 SetIntersection(true);
         }
 
         public void OnTriggerStay2D(Collider2D collision)
         {
-            if (collision.gameObject.CompareTag("Rope"))
+            if (collision.gameObject.CompareTag("Rope") && !_isInterception)
                 SetIntersection(true);
         }
 
         public void OnTriggerExit2D(Collider2D collision)
         {
-            if (collision.gameObject.CompareTag("Rope"))
+            if (collision.gameObject.CompareTag("Rope") && _isInterception)
                 SetIntersection(false);
         }
-    }
-
-    public interface IIntersectionChecker
-    {
-        void Initialize();
-        void UpdateBoxCollider(Vector3 startPos, Vector3 endPos);
-        void OnTriggerEnter2D(Collider2D collision);
-        void OnTriggerStay2D(Collider2D collision);
-        void OnTriggerExit2D(Collider2D collision);
     }
 }

@@ -1,4 +1,7 @@
-﻿using _Script.Gameplay;
+﻿using _Script.Gameplay.Ropes.Checker;
+using _Script.Gameplay.ScoreSystem;
+using _Script.Gameplay.WinSystem.Checker;
+using _Script.Gameplay.WinSystem.WinUi;
 using _Script.Infrastructure.Bootstrap;
 using _Script.Infrastructure.Data.AddressableLoader;
 using _Script.Infrastructure.Data.StaticData;
@@ -12,9 +15,10 @@ using VContainer.Unity;
 
 namespace _Script.Infrastructure.Installers
 {
-    public class BootstrapperInstaller : LifetimeScope
+    public class MainInstaller : LifetimeScope
     {
         [SerializeField] private AllData _allData;
+        [SerializeField] private Canvas _dynamicCanvas;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -24,6 +28,7 @@ namespace _Script.Infrastructure.Installers
             RegisterFactories(builder);
             RegisterDataServices(builder);
             RegisterGameServices(builder);
+            RegisterUiPresenters(builder);
         }
 
         private void FsmRegisters(IContainerBuilder builder) => 
@@ -34,6 +39,8 @@ namespace _Script.Infrastructure.Installers
             builder.Register<IStateFactory, StateFactory>(Lifetime.Singleton);
             builder.Register<IRopeFactory, RopeFactory>(Lifetime.Singleton);
             builder.Register<INodeFactory, NodeFactory>(Lifetime.Singleton);
+            builder.Register<IWinWindowFactory, WinWindowFactory>(Lifetime.Singleton).WithParameter(_dynamicCanvas);
+            builder.Register<IScoresFactory, ScoresFactory>(Lifetime.Singleton).WithParameter(_dynamicCanvas);
         }
 
         private void RegisterDataServices(IContainerBuilder builder)
@@ -47,6 +54,14 @@ namespace _Script.Infrastructure.Installers
         {
             builder.Register<IGameGenerator, GameGenerator>(Lifetime.Singleton);
             builder.Register<IIntersectionChecker, IntersectionChecker>(Lifetime.Singleton);
+            builder.Register<IWinService, WinService>(Lifetime.Singleton);
+            builder.Register<IScoreService, ScoreService>(Lifetime.Singleton);
+        }
+
+        private void RegisterUiPresenters(IContainerBuilder builder)
+        {
+            builder.Register<IWinPresenter, WinPresenter>(Lifetime.Singleton);
+            builder.Register<IScorePresenter, ScorePresenter>(Lifetime.Singleton);
         }
     }
 }

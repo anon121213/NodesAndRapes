@@ -9,12 +9,14 @@ namespace _Script.Infrastructure.Data.StaticData
         public AssetsReferences AssetsReferences { get; }
         public NodesGeneratorConfig NodesGeneratorConfig { get; }
         public RopesConfig RopesConfig { get; }
+        public ScoresConfig ScoresConfig { get; }
         
         public StaticDataProvider(AllData allData)
         {
             AssetsReferences = allData.AssetsReferences;
             NodesGeneratorConfig = allData.NodesGeneratorConfig;
             RopesConfig = allData.RopesConfig;
+            ScoresConfig = allData.ScoresConfig;
         }
     }
     
@@ -25,6 +27,8 @@ namespace _Script.Infrastructure.Data.StaticData
         
         [field: SerializeField] public AssetReferenceGameObject NodeReference { get; private set; }
         [field: SerializeField] public AssetReferenceGameObject RopeReference { get; private set; }
+        [field: SerializeField] public AssetReferenceGameObject WinWindowReference { get; private set; }
+        [field: SerializeField] public AssetReferenceGameObject ScoreReference { get; private set; }
     }
     
     [CreateAssetMenu(fileName = "NodesGeneratorConfig", menuName = "Data/Configs/NodesGeneratorConfig")]
@@ -47,6 +51,12 @@ namespace _Script.Infrastructure.Data.StaticData
         
         [field: SerializeField] public float RopeThickness { get; private set; } = 0.03f; 
         [field: SerializeField] public float ColliderPadding { get; private set; } = 0.3f; 
+    } 
+    
+    [CreateAssetMenu(fileName = "ScoresConfig", menuName = "Data/Configs/ScoresConfig")]
+    public class ScoresConfig : ScriptableObject
+    {
+        [field: SerializeField] public int WinScoreValue { get; private set; } = 350; 
     }
 
     [CreateAssetMenu(fileName = "AllData", menuName = "Data/AllData")]
@@ -55,5 +65,6 @@ namespace _Script.Infrastructure.Data.StaticData
         [field: SerializeField] public AssetsReferences AssetsReferences { get; private set; }
         [field: SerializeField] public NodesGeneratorConfig NodesGeneratorConfig { get; private set; }
         [field: SerializeField] public RopesConfig RopesConfig { get; private set; }
+        [field: SerializeField] public ScoresConfig ScoresConfig { get; private set; }
     }
 }

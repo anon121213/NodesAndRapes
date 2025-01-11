@@ -1,7 +1,9 @@
-﻿using _Script.Gameplay;
+﻿using System.Collections.Generic;
 using _Script.Gameplay.Nodes;
 using _Script.Gameplay.Pools;
 using _Script.Gameplay.Ropes;
+using _Script.Gameplay.Ropes.Checker;
+using _Script.Gameplay.WinSystem.Checker;
 using _Script.Infrastructure.Data.AddressableLoader;
 using _Script.Infrastructure.Data.StaticData;
 using Cysharp.Threading.Tasks;
@@ -13,18 +15,23 @@ namespace _Script.Infrastructure.Factories
     {
         private readonly IAssetProvider _assetProvider;
         private readonly IStaticDataProvider _staticDataProvider;
-        
+        private readonly IWinService _winService;
+
         private RopePool _ropePool;
         private GameObject _ropePrefab;
         
         private Material _redMat;
         private Material _greenMat;
 
+        private List<Rope> _ropes = new();
+
         public RopeFactory(IAssetProvider assetProvider,
-            IStaticDataProvider staticDataProvider)
+            IStaticDataProvider staticDataProvider,
+            IWinService winService)
         {
             _assetProvider = assetProvider;
             _staticDataProvider = staticDataProvider;
+            _winService = winService;
         }
 
         public async UniTask Initialize()
@@ -45,23 +52,35 @@ namespace _Script.Infrastructure.Factories
         public Rope GetRope(Node firstNode, Node secondNode)
         {
             Rope rope = _ropePool.GetObject();
-
-            BoxCollider2D boxCollider = rope.GetComponent<BoxCollider2D>();
-            LineRenderer lineRenderer = rope.GetComponent<LineRenderer>();
-
-            IIntersectionChecker intersectionChecker =
-                new IntersectionChecker(boxCollider, lineRenderer,
-                    _greenMat, _redMat, _staticDataProvider);
             
-            intersectionChecker.Initialize();
-            rope.Initialize(firstNode, secondNode, intersectionChecker);
+            InitRopeChecker(rope);
+            
+            _winService.AddRope(rope);
+            
+            rope.Initialize(firstNode, secondNode);
             
             rope.UpdateRope();
             
             return rope;
         }
 
-        public void ReturnToPool(Rope rope) => 
+        private void InitRopeChecker(Rope rope)
+        {
+            if (_ropes.Contains(rope))
+                return;
+            
+            _ropes.Add(rope);
+                
+            IIntersectionChecker intersectionChecker =
+                new IntersectionChecker(rope, _greenMat, _redMat, _staticDataProvider);
+                
+            rope.SetChecker(intersectionChecker);
+        }
+        
+        public void ReturnToPool(Rope rope)
+        {
+            _winService.RemoveRope(rope);
             _ropePool.ReturnObject(rope);
+        }
     }
 }

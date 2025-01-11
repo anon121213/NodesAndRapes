@@ -12,18 +12,24 @@ namespace _Script.Infrastructure.FSM.States
         private readonly IGameGenerator _gameGenerator;
         private readonly IRopeFactory _ropeFactory;
         private readonly INodeFactory _nodeFactory;
+        private readonly IWinWindowFactory _windowFactory;
+        private readonly IScoresFactory _scoresFactory;
 
         public SceneLoadState(ISceneLoader sceneLoader,
             IStaticDataProvider staticDataProvider,
             IGameGenerator gameGenerator,
             IRopeFactory ropeFactory,
-            INodeFactory nodeFactory)
+            INodeFactory nodeFactory,
+            IWinWindowFactory windowFactory,
+            IScoresFactory scoresFactory)
         {
             _sceneLoader = sceneLoader;
             _staticDataProvider = staticDataProvider;
             _gameGenerator = gameGenerator;
             _ropeFactory = ropeFactory;
             _nodeFactory = nodeFactory;
+            _windowFactory = windowFactory;
+            _scoresFactory = scoresFactory;
         }
 
         public async void Enter()
@@ -38,7 +44,11 @@ namespace _Script.Infrastructure.FSM.States
         {
             await _ropeFactory.Initialize();
             await _nodeFactory.Initialize();
+            await _windowFactory.Initialize();
+            await _scoresFactory.Initialize();
             
+            _windowFactory.CreateWinWindow();
+            _scoresFactory.CreateScoreWindow();
             _gameGenerator.Initialize();
             _gameGenerator.GenerateRandomNodesAndRopes();
         }

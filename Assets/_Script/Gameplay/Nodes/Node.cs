@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using _Script.Gameplay.Nodes.Mover;
+using _Script.Gameplay.Nodes.NodeUi;
 using _Script.Gameplay.Ropes;
 using UnityEngine;
 
@@ -9,10 +11,26 @@ namespace _Script.Gameplay.Nodes
     {
         private readonly List<Rope> Ropes = new();
         
-        private Vector2 offset;
+        private INodeMover _nodeMover;
+        private Vector2 _offset;
+        private INodePresenter _nodePresenter;
 
-        public event Action OnNodeDrag;
-        
+        public event Action<bool> OnMouseOver;
+
+        public void Initialize(INodeMover nodeMover,
+            INodePresenter nodePresenter)
+        {
+            _nodeMover = nodeMover;
+            _nodePresenter = nodePresenter;
+            _nodeMover.OnNodeDrag += UpdateRopes;
+        }
+
+        private void UpdateRopes()
+        {
+            foreach (Rope rope in Ropes) 
+                rope.UpdateRope();
+        }
+
         public void AddRope(Rope rope)
         {
             if (Ropes.Count > 4)
@@ -21,22 +39,25 @@ namespace _Script.Gameplay.Nodes
             Ropes.Add(rope);
         }
 
+        private void OnMouseDown() => 
+            _nodeMover.OnMouseDown();
+
+        private void OnMouseDrag() => 
+            _nodeMover.OnMouseDrag();
+
+        private void OnMouseExit() => 
+            OnMouseOver?.Invoke(false);
+
+        private void OnMouseEnter() => 
+            OnMouseOver?.Invoke(true);
+
         public void Release() => 
             Ropes.Clear();
 
-        private void OnMouseDown() => 
-            offset = (Vector2)transform.position
-                     - (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        private void OnMouseDrag()
+        private void OnDestroy()
         {
-            Vector2 mousePosition = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) + offset;
-            transform.position = mousePosition;
-
-            foreach (Rope rope in Ropes) 
-                rope.UpdateRope();
-            
-            OnNodeDrag?.Invoke();
+            _nodeMover.OnNodeDrag -= UpdateRopes;
+            _nodePresenter.Dispose();
         }
     }
 }

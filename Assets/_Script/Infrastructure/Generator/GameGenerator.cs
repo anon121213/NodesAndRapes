@@ -82,6 +82,8 @@ namespace _Script.Infrastructure.Generator
                     
                     Rope rope = _ropeFactory.GetRope(firstNode, otherNode);
 
+                    rope.IntersectionChecker.InitInterception();
+                    
                     firstNode.AddRope(rope);
                     otherNode.AddRope(rope);
 

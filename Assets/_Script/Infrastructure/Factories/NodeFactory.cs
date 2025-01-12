@@ -3,6 +3,7 @@ using _Script.Gameplay.Nodes;
 using _Script.Gameplay.Nodes.Mover;
 using _Script.Gameplay.Nodes.NodeUi;
 using _Script.Gameplay.Pools;
+using _Script.Gameplay.SoundSystem;
 using _Script.Gameplay.WinSystem.Checker;
 using _Script.Infrastructure.Data.AddressableLoader;
 using _Script.Infrastructure.Data.StaticData;
@@ -13,27 +14,29 @@ namespace _Script.Infrastructure.Factories
 {
     public class NodeFactory : INodeFactory
     {
-        private readonly IAssetProvider _assetProvider;
+        private readonly IAddressablesLoader _addressablesLoader;
         private readonly IStaticDataProvider _staticDataProvider;
         private readonly IWineble _winService;
+        private readonly ISoundService _soundService;
+        private readonly List<Node> _nodes = new ();
 
         private GameObject _nodePrefab;
         private NodePool _nodePool;
 
-        private List<Node> _nodes = new ();
-
-        public NodeFactory(IAssetProvider assetProvider,
+        public NodeFactory(IAddressablesLoader addressablesLoader,
             IStaticDataProvider staticDataProvider,
-            IWinService winService)
+            IWinService winService,
+            ISoundService soundService)
         {
-            _assetProvider = assetProvider;
+            _addressablesLoader = addressablesLoader;
             _staticDataProvider = staticDataProvider;
             _winService = winService;
+            _soundService = soundService;
         }
         
         public async UniTask Initialize()
         {
-            _nodePrefab = await _assetProvider.LoadAsync<GameObject>
+            _nodePrefab = await _addressablesLoader.LoadAsync<GameObject>
                 (_staticDataProvider.AssetsReferences.NodeReference);
             
             _nodePool = new NodePool(_nodePrefab.GetComponent<Node>(), null,
@@ -64,7 +67,7 @@ namespace _Script.Infrastructure.Factories
             INodeView nodeView = node.GetComponent<NodeView>();
             
             nodePresenter.Initialize(node, nodeView);
-            node.Initialize(nodeMover, nodePresenter);
+            node.Initialize(nodeMover, nodePresenter, _soundService, _staticDataProvider);
         }
 
         public void ReturnToPool(Node node) => 

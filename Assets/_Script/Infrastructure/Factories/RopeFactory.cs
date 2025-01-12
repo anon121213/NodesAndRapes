@@ -13,7 +13,7 @@ namespace _Script.Infrastructure.Factories
 {
     public class RopeFactory : IRopeFactory
     {
-        private readonly IAssetProvider _assetProvider;
+        private readonly IAddressablesLoader _addressablesLoader;
         private readonly IStaticDataProvider _staticDataProvider;
         private readonly IWinService _winService;
 
@@ -25,24 +25,24 @@ namespace _Script.Infrastructure.Factories
 
         private List<Rope> _ropes = new();
 
-        public RopeFactory(IAssetProvider assetProvider,
+        public RopeFactory(IAddressablesLoader addressablesLoader,
             IStaticDataProvider staticDataProvider,
             IWinService winService)
         {
-            _assetProvider = assetProvider;
+            _addressablesLoader = addressablesLoader;
             _staticDataProvider = staticDataProvider;
             _winService = winService;
         }
 
         public async UniTask Initialize()
         {
-            _ropePrefab = await _assetProvider.LoadAsync<GameObject>
+            _ropePrefab = await _addressablesLoader.LoadAsync<GameObject>
                 (_staticDataProvider.AssetsReferences.RopeReference);
             
-            _greenMat = await _assetProvider.LoadAsync<Material>
+            _greenMat = await _addressablesLoader.LoadAsync<Material>
                 (_staticDataProvider.RopesConfig.GreenMaterial);
             
-            _redMat = await _assetProvider.LoadAsync<Material>
+            _redMat = await _addressablesLoader.LoadAsync<Material>
                 (_staticDataProvider.RopesConfig.RegMaterial);
             
             _ropePool = new RopePool(_ropePrefab.GetComponent<Rope>(), null, 

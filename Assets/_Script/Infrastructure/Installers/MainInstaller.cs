@@ -1,6 +1,8 @@
-﻿using _Script.Gameplay.Ropes.Checker;
+﻿using System.Collections.Generic;
+using _Script.Gameplay.Ropes.Checker;
 using _Script.Gameplay.ScoreSystem;
 using _Script.Gameplay.SkipButton;
+using _Script.Gameplay.SoundSystem;
 using _Script.Gameplay.WinSystem.Checker;
 using _Script.Gameplay.WinSystem.WinUi;
 using _Script.Infrastructure.Bootstrap;
@@ -20,6 +22,7 @@ namespace _Script.Infrastructure.Installers
     {
         [SerializeField] private AllData _allData;
         [SerializeField] private Canvas _dynamicCanvas;
+        [SerializeField] private List<SoundSource> _audioSources = new ();
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -48,7 +51,7 @@ namespace _Script.Infrastructure.Installers
         private void RegisterDataServices(IContainerBuilder builder)
         {
             builder.Register<ISceneLoader, SceneLoader>(Lifetime.Singleton);
-            builder.Register<IAssetProvider, AssetProvider>(Lifetime.Singleton);
+            builder.Register<IAddressablesLoader, AddressablesLoader>(Lifetime.Singleton);
             builder.Register<IStaticDataProvider, StaticDataProvider>(Lifetime.Singleton).WithParameter(_allData);
         }
 
@@ -58,6 +61,7 @@ namespace _Script.Infrastructure.Installers
             builder.Register<IIntersectionChecker, IntersectionChecker>(Lifetime.Singleton);
             builder.Register<IWinService, WinService>(Lifetime.Singleton);
             builder.Register<IScoreService, ScoreService>(Lifetime.Singleton);
+            builder.Register<ISoundService, SoundService>(Lifetime.Singleton).WithParameter(_audioSources);
         }
 
         private void RegisterUiPresenters(IContainerBuilder builder)

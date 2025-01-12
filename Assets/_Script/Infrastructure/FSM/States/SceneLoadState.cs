@@ -2,6 +2,7 @@
 using _Script.Infrastructure.Factories;
 using _Script.Infrastructure.Generator;
 using _Script.Infrastructure.ScenesLoader;
+using Cysharp.Threading.Tasks;
 
 namespace _Script.Infrastructure.FSM.States
 {
@@ -40,10 +41,11 @@ namespace _Script.Infrastructure.FSM.States
             await _sceneLoader.LoadScene(_staticDataProvider
                 .AssetsReferences.MainSceneReference);
             
+            await InitializeFactories();
             GenerateGame();
         }
 
-        private async void GenerateGame()
+        private async UniTask InitializeFactories()
         {
             await _ropeFactory.Initialize();
             await _nodeFactory.Initialize();
@@ -54,7 +56,10 @@ namespace _Script.Infrastructure.FSM.States
             _skipButtonFactory.CreateSkipButton();
             _windowFactory.CreateWinWindow();
             _scoresFactory.CreateScoreWindow();
-            
+        }
+
+        private void GenerateGame()
+        {
             _gameGenerator.Initialize();
             _gameGenerator.GenerateRandomNodesAndRopes();
         }

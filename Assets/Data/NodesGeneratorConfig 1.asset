@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: NodesGeneratorConfig 1
   m_EditorClassIdentifier: Assembly-CSharp:_Script.Infrastructure.Data.StaticData:NodesGeneratorConfig
   <NodeCount>k__BackingField: 5
-  <MinRopeCount>k__BackingField: 3
+  <MinRopeCount>k__BackingField: 2
+  <MaxRopeCount>k__BackingField: 4
+  <SoundCooldown>k__BackingField: 2
   <MinX>k__BackingField: -5
   <MaxX>k__BackingField: 5
   <MinY>k__BackingField: -5

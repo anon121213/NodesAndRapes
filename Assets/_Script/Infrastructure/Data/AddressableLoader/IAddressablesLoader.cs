@@ -4,7 +4,7 @@ using UnityEngine.AddressableAssets;
 
 namespace _Script.Infrastructure.Data.AddressableLoader
 {
-    public interface IAssetProvider
+    public interface IAddressablesLoader
     {
         UniTask InitializeAsset();
         UniTask<T> LoadAsync<T>(string address) where T : class;

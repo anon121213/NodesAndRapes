@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using _Script.Gameplay.SoundSystem.Data;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.Serialization;
 
 namespace _Script.Infrastructure.Data.StaticData
 {
@@ -10,6 +10,7 @@ namespace _Script.Infrastructure.Data.StaticData
         public NodesGeneratorConfig NodesGeneratorConfig { get; }
         public RopesConfig RopesConfig { get; }
         public ScoresConfig ScoresConfig { get; }
+        public SoundConfig SoundConfig { get; }
         
         public StaticDataProvider(AllData allData)
         {
@@ -17,6 +18,7 @@ namespace _Script.Infrastructure.Data.StaticData
             NodesGeneratorConfig = allData.NodesGeneratorConfig;
             RopesConfig = allData.RopesConfig;
             ScoresConfig = allData.ScoresConfig;
+            SoundConfig = allData.SoundConfig;
         }
     }
     
@@ -36,7 +38,9 @@ namespace _Script.Infrastructure.Data.StaticData
     public class NodesGeneratorConfig : ScriptableObject
     {
         [field: SerializeField] public int NodeCount { get; private set; } = 5;
-        [field: SerializeField] public int MinRopeCount { get; private set; } = 5;
+        [field: SerializeField] public int MinRopeCount { get; private set; } = 3;
+        [field: SerializeField] public int MaxRopeCount { get; private set; } = 4;
+        [field: SerializeField] public float SoundCooldown { get; private set; } = 4;
         
         [field: SerializeField] public float MinX { get; private set; } = -5f;
         [field: SerializeField] public float MaxX { get; private set; } = 5f;
@@ -67,5 +71,6 @@ namespace _Script.Infrastructure.Data.StaticData
         [field: SerializeField] public NodesGeneratorConfig NodesGeneratorConfig { get; private set; }
         [field: SerializeField] public RopesConfig RopesConfig { get; private set; }
         [field: SerializeField] public ScoresConfig ScoresConfig { get; private set; }
+        [field: SerializeField] public SoundConfig SoundConfig { get; private set; }
     }
 }

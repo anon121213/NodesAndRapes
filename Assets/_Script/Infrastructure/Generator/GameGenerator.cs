@@ -25,6 +25,7 @@ namespace _Script.Infrastructure.Generator
 
         private int _nodeCount, _minRopeCount;
         private float _minX, _maxX, _minY, _maxY;
+        private int _maxRopeCount;
 
         public GameGenerator(IStaticDataProvider staticDataProvider,
             IRopeFactory ropeFactory,
@@ -38,6 +39,7 @@ namespace _Script.Infrastructure.Generator
         public void Initialize()
         {
             _minRopeCount = _staticDataProvider.NodesGeneratorConfig.MinRopeCount;
+            _maxRopeCount = _staticDataProvider.NodesGeneratorConfig.MinRopeCount;
             _nodeCount = _staticDataProvider.NodesGeneratorConfig.NodeCount;
 
             _minX = _staticDataProvider.NodesGeneratorConfig.MinX;
@@ -73,7 +75,9 @@ namespace _Script.Infrastructure.Generator
         {
             foreach (Node firstNode in _allNodes)
             {
-                for (int i = 0; i < _minRopeCount; i++)
+                int ropeCount = Random.Range(_minRopeCount, _maxRopeCount); 
+                
+                for (int i = 0; i < ropeCount; i++)
                 {
                     Node otherNode = GetRandomNodeExcluding(firstNode, _allNodes);
 

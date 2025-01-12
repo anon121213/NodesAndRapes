@@ -8,26 +8,26 @@ namespace _Script.Infrastructure.Factories
 {
     public class SkipButtonFactory : ISkipButtonFactory
     {
-        private readonly IAssetProvider _assetProvider;
+        private readonly IAddressablesLoader _addressablesLoader;
         private readonly IStaticDataProvider _staticDataProvider;
         private readonly ISkipPresenter _skipPresenter;
         private readonly Canvas _canvas;
 
         private GameObject _skipButton;
         
-        public SkipButtonFactory(IAssetProvider assetProvider,
+        public SkipButtonFactory(IAddressablesLoader addressablesLoader,
             IStaticDataProvider staticDataProvider,
             ISkipPresenter skipPresenter,
             Canvas canvas)
         {
-            _assetProvider = assetProvider;
+            _addressablesLoader = addressablesLoader;
             _staticDataProvider = staticDataProvider;
             _skipPresenter = skipPresenter;
             _canvas = canvas;
         }
 
         public async UniTask Initialize() =>
-            _skipButton = await _assetProvider.LoadAsync<GameObject>
+            _skipButton = await _addressablesLoader.LoadAsync<GameObject>
                 (_staticDataProvider.AssetsReferences.SkipButtonReference);
 
         public void CreateSkipButton()

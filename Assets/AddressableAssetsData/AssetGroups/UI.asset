@@ -15,8 +15,23 @@ MonoBehaviour:
   m_GroupName: UI
   m_GUID: b8d69b56739526b45a82c133859a0e2f
   m_SerializeEntries:
+  - m_GUID: 07862fa76d6c64941ba4a7a0a26dbde5
+    m_Address: Assets/Prefabs/UI/Interface.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 49010777a2c396d46a377008ad6d9009
     m_Address: Assets/Prefabs/UI/Panel.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ca42d74ac8c0d724389ababb551136a3
+    m_Address: Assets/Prefabs/UI/SkipButton.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d477447b081f59047bdba8de6007a668
+    m_Address: Assets/Prefabs/UI/Scores.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -7,7 +7,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace _Script.Infrastructure.Data.AddressableLoader
 {
-    public class AssetProvider : IAssetProvider
+    public class AddressablesLoader : IAddressablesLoader
     {
         private readonly Dictionary<string, AsyncOperationHandle> _cache = new();
         private readonly Dictionary<string, List<AsyncOperationHandle>> _usedResources = new();

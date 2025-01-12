@@ -9,25 +9,25 @@ namespace _Script.Infrastructure.Factories
     public class ScoresFactory : IScoresFactory
     {
         private readonly IStaticDataProvider _staticDataProvider;
-        private readonly IAssetProvider _assetProvider;
+        private readonly IAddressablesLoader _addressablesLoader;
         private readonly IScorePresenter _scoresPresenter;
         private readonly Canvas _canvas;
 
         private GameObject _scoreWindow;
         
         public ScoresFactory(IStaticDataProvider staticDataProvider,
-            IAssetProvider assetProvider,
+            IAddressablesLoader addressablesLoader,
             IScorePresenter scoresPresenter,
             Canvas canvas)
         {
             _staticDataProvider = staticDataProvider;
-            _assetProvider = assetProvider;
+            _addressablesLoader = addressablesLoader;
             _scoresPresenter = scoresPresenter;
             _canvas = canvas;
         }
 
         public async UniTask Initialize() =>
-            _scoreWindow = await _assetProvider.LoadAsync<GameObject>
+            _scoreWindow = await _addressablesLoader.LoadAsync<GameObject>
                 (_staticDataProvider.AssetsReferences.ScoreReference);
 
         public void CreateScoreWindow()

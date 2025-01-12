@@ -1,4 +1,6 @@
-﻿namespace _Script.Infrastructure.Data.StaticData
+﻿using _Script.Gameplay.SoundSystem.Data;
+
+namespace _Script.Infrastructure.Data.StaticData
 {
     public interface IStaticDataProvider
     {
@@ -6,5 +8,6 @@
         NodesGeneratorConfig NodesGeneratorConfig { get; }
         RopesConfig RopesConfig { get; }
         ScoresConfig ScoresConfig { get; }
+        SoundConfig SoundConfig { get; }
     }
 }

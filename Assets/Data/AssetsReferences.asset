@@ -36,3 +36,15 @@ MonoBehaviour:
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
+  <ScoreReference>k__BackingField:
+    m_AssetGUID: d477447b081f59047bdba8de6007a668
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  <SkipButtonReference>k__BackingField:
+    m_AssetGUID: ca42d74ac8c0d724389ababb551136a3
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0

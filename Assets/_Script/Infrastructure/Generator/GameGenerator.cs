@@ -4,6 +4,7 @@ using _Script.Gameplay.Pools;
 using _Script.Gameplay.Ropes;
 using _Script.Infrastructure.Data.StaticData;
 using _Script.Infrastructure.Factories;
+using _Script.Infrastructure.Factories.Services;
 using Random = UnityEngine.Random;
 
 namespace _Script.Infrastructure.Generator

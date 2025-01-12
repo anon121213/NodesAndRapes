@@ -9,7 +9,7 @@ using _Script.Infrastructure.Data.StaticData;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace _Script.Infrastructure.Factories
+namespace _Script.Infrastructure.Factories.Services
 {
     public class RopeFactory : IRopeFactory
     {

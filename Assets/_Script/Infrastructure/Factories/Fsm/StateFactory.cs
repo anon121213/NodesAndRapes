@@ -2,7 +2,7 @@
 using VContainer;
 using VContainer.Unity;
 
-namespace _Script.Infrastructure.Factories
+namespace _Script.Infrastructure.Factories.Fsm
 {
     public class StateFactory : IStateFactory
     {
@@ -14,10 +14,5 @@ namespace _Script.Infrastructure.Factories
         public IExitableState CreateSystem<TState>() where TState : class, IExitableState => 
             _parentScope.CreateChild(builder =>
                 builder.Register<TState>(Lifetime.Transient)).Container.Resolve<TState>();
-    }
-
-    public interface IStateFactory
-    {
-        IExitableState CreateSystem<TState>() where TState : class, IExitableState;
     }
 }

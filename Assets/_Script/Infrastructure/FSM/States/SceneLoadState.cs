@@ -1,5 +1,7 @@
 ﻿using _Script.Infrastructure.Data.StaticData;
 using _Script.Infrastructure.Factories;
+using _Script.Infrastructure.Factories.Services;
+using _Script.Infrastructure.Factories.UI;
 using _Script.Infrastructure.Generator;
 using _Script.Infrastructure.ScenesLoader;
 using Cysharp.Threading.Tasks;
@@ -13,27 +15,21 @@ namespace _Script.Infrastructure.FSM.States
         private readonly IGameGenerator _gameGenerator;
         private readonly IRopeFactory _ropeFactory;
         private readonly INodeFactory _nodeFactory;
-        private readonly IWinWindowFactory _windowFactory;
-        private readonly IScoresFactory _scoresFactory;
-        private readonly ISkipButtonFactory _skipButtonFactory;
+        private readonly IInterfaceFactory _interfaceFactory;
 
         public SceneLoadState(ISceneLoader sceneLoader,
             IStaticDataProvider staticDataProvider,
             IGameGenerator gameGenerator,
             IRopeFactory ropeFactory,
             INodeFactory nodeFactory,
-            IWinWindowFactory windowFactory,
-            IScoresFactory scoresFactory,
-            ISkipButtonFactory skipButtonFactory)
+            IInterfaceFactory interfaceFactory)
         {
             _sceneLoader = sceneLoader;
             _staticDataProvider = staticDataProvider;
             _gameGenerator = gameGenerator;
             _ropeFactory = ropeFactory;
             _nodeFactory = nodeFactory;
-            _windowFactory = windowFactory;
-            _scoresFactory = scoresFactory;
-            _skipButtonFactory = skipButtonFactory;
+            _interfaceFactory = interfaceFactory;
         }
 
         public async void Enter()
@@ -47,15 +43,9 @@ namespace _Script.Infrastructure.FSM.States
 
         private async UniTask InitializeFactories()
         {
+            await _interfaceFactory.Initialize();
             await _ropeFactory.Initialize();
             await _nodeFactory.Initialize();
-            await _windowFactory.Initialize();
-            await _scoresFactory.Initialize();
-            await _skipButtonFactory.Initialize();
-            
-            _skipButtonFactory.CreateSkipButton();
-            _windowFactory.CreateWinWindow();
-            _scoresFactory.CreateScoreWindow();
         }
 
         private void GenerateGame()

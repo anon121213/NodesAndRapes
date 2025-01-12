@@ -11,7 +11,7 @@ namespace _Script.Gameplay.WinSystem.WinUi
         private readonly IWineble _winService;
         private readonly IGameGenerator _gameGenerator;
         
-        private IWinVie _winVie;
+        private IWinView _winView;
         private Transform _windowTransform;
 
         public WinPresenter(IWinService winService,
@@ -21,13 +21,13 @@ namespace _Script.Gameplay.WinSystem.WinUi
             _gameGenerator = gameGenerator;
         }
 
-        public void Initialize(IWinVie winVie, 
+        public void Initialize(IWinView winView, 
             Transform windowTransform)
         {
             _windowTransform = windowTransform;
-            _winVie = winVie;
+            _winView = winView;
             _winService.OnWin += Win;
-            _winVie.RestartButton.onClick.AddListener(RestartLevel);
+            _winView.RestartButton.onClick.AddListener(RestartLevel);
         }
 
         private void RestartLevel()
@@ -52,13 +52,13 @@ namespace _Script.Gameplay.WinSystem.WinUi
         public void Dispose()
         {
             _winService.OnWin -= Win;
-            _winVie.RestartButton.onClick.RemoveListener(RestartLevel);
+            _winView.RestartButton.onClick.RemoveListener(RestartLevel);
         }
     }
 
     public interface IWinPresenter
     {
-        void Initialize(IWinVie winVie, 
+        void Initialize(IWinView winView, 
             Transform windowTransform);
     }
 }

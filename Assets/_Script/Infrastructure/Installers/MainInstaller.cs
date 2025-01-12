@@ -3,12 +3,16 @@ using _Script.Gameplay.Ropes.Checker;
 using _Script.Gameplay.ScoreSystem;
 using _Script.Gameplay.SkipButton;
 using _Script.Gameplay.SoundSystem;
+using _Script.Gameplay.SoundSystem.Data;
 using _Script.Gameplay.WinSystem.Checker;
 using _Script.Gameplay.WinSystem.WinUi;
 using _Script.Infrastructure.Bootstrap;
 using _Script.Infrastructure.Data.AddressableLoader;
 using _Script.Infrastructure.Data.StaticData;
 using _Script.Infrastructure.Factories;
+using _Script.Infrastructure.Factories.Fsm;
+using _Script.Infrastructure.Factories.Services;
+using _Script.Infrastructure.Factories.UI;
 using _Script.Infrastructure.FSM;
 using _Script.Infrastructure.Generator;
 using _Script.Infrastructure.ScenesLoader;
@@ -21,7 +25,6 @@ namespace _Script.Infrastructure.Installers
     public class MainInstaller : LifetimeScope
     {
         [SerializeField] private AllData _allData;
-        [SerializeField] private Canvas _dynamicCanvas;
         [SerializeField] private List<SoundSource> _audioSources = new ();
 
         protected override void Configure(IContainerBuilder builder)
@@ -43,9 +46,10 @@ namespace _Script.Infrastructure.Installers
             builder.Register<IStateFactory, StateFactory>(Lifetime.Singleton);
             builder.Register<IRopeFactory, RopeFactory>(Lifetime.Singleton);
             builder.Register<INodeFactory, NodeFactory>(Lifetime.Singleton);
-            builder.Register<IWinWindowFactory, WinWindowFactory>(Lifetime.Singleton).WithParameter(_dynamicCanvas);
-            builder.Register<IScoresFactory, ScoresFactory>(Lifetime.Singleton).WithParameter(_dynamicCanvas);
-            builder.Register<ISkipButtonFactory, SkipButtonFactory>(Lifetime.Singleton).WithParameter(_dynamicCanvas);
+            builder.Register<IWinWindowFactory, WinWindowFactory>(Lifetime.Singleton);
+            builder.Register<IScoresFactory, ScoresFactory>(Lifetime.Singleton);
+            builder.Register<ISkipButtonFactory, SkipButtonFactory>(Lifetime.Singleton);
+            builder.Register<IInterfaceFactory, InterfaceFactory>(Lifetime.Singleton);
         }
 
         private void RegisterDataServices(IContainerBuilder builder)

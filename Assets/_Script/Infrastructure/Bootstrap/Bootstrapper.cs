@@ -1,4 +1,5 @@
 ﻿using _Script.Infrastructure.Factories;
+using _Script.Infrastructure.Factories.Fsm;
 using _Script.Infrastructure.FSM;
 using _Script.Infrastructure.FSM.States;
 using VContainer;

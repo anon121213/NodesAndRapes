@@ -1,7 +1,7 @@
 using _Script.Gameplay.Nodes;
 using Cysharp.Threading.Tasks;
 
-namespace _Script.Infrastructure.Factories
+namespace _Script.Infrastructure.Factories.Services
 {
     public interface INodeFactory
     {

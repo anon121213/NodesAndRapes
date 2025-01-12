@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using _Script.Gameplay.SoundSystem.Data;
 using _Script.Infrastructure.Data.AddressableLoader;
@@ -70,19 +69,5 @@ namespace _Script.Gameplay.SoundSystem
                 source.AudioSource.clip = null;
             }
         }
-    }
-
-    public interface ISoundService
-    {
-        void AddSounds(List<Sound> newSounds);
-        UniTask PlayLoopAudio(SoundType soundType);
-        UniTask PlayOnceSound(SoundType soundType);
-    }
-    
-    [Serializable]
-    public struct SoundSource
-    {
-        public AudioSource AudioSource;
-        public SoundGroup SoundGroup;
     }
 }

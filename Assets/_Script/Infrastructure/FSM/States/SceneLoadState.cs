@@ -14,6 +14,7 @@ namespace _Script.Infrastructure.FSM.States
         private readonly INodeFactory _nodeFactory;
         private readonly IWinWindowFactory _windowFactory;
         private readonly IScoresFactory _scoresFactory;
+        private readonly ISkipButtonFactory _skipButtonFactory;
 
         public SceneLoadState(ISceneLoader sceneLoader,
             IStaticDataProvider staticDataProvider,
@@ -21,7 +22,8 @@ namespace _Script.Infrastructure.FSM.States
             IRopeFactory ropeFactory,
             INodeFactory nodeFactory,
             IWinWindowFactory windowFactory,
-            IScoresFactory scoresFactory)
+            IScoresFactory scoresFactory,
+            ISkipButtonFactory skipButtonFactory)
         {
             _sceneLoader = sceneLoader;
             _staticDataProvider = staticDataProvider;
@@ -30,6 +32,7 @@ namespace _Script.Infrastructure.FSM.States
             _nodeFactory = nodeFactory;
             _windowFactory = windowFactory;
             _scoresFactory = scoresFactory;
+            _skipButtonFactory = skipButtonFactory;
         }
 
         public async void Enter()
@@ -46,9 +49,12 @@ namespace _Script.Infrastructure.FSM.States
             await _nodeFactory.Initialize();
             await _windowFactory.Initialize();
             await _scoresFactory.Initialize();
+            await _skipButtonFactory.Initialize();
             
+            _skipButtonFactory.CreateSkipButton();
             _windowFactory.CreateWinWindow();
             _scoresFactory.CreateScoreWindow();
+            
             _gameGenerator.Initialize();
             _gameGenerator.GenerateRandomNodesAndRopes();
         }

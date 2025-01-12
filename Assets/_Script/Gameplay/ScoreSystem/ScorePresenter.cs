@@ -1,7 +1,6 @@
 ﻿using System;
 using _Script.Gameplay.WinSystem.Checker;
 using _Script.Infrastructure.Data.StaticData;
-using UnityEngine;
 
 namespace _Script.Gameplay.ScoreSystem
 {
@@ -30,11 +29,8 @@ namespace _Script.Gameplay.ScoreSystem
             _scoreService.ChangeScores += _scoresView.ChangeScores;
         }
 
-        private void AddScores()
-        {
-            Debug.Log("addSCore");
+        private void AddScores() => 
             _scoreService.TryAddScores(_staticDataProvider.ScoresConfig.WinScoreValue);
-        }
 
         public void Dispose()
         {

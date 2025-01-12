@@ -12,8 +12,8 @@ namespace _Script.Gameplay.Ropes.Checker
         private readonly IStaticDataProvider _staticDataProvider;
         private readonly Rope _rope;
 
-        private float _ropeThickness = 0.03f; 
-        private float _colliderPadding = 0.3f;
+        private float _ropeThickness; 
+        private float _colliderPadding;
 
         private bool _isInterception = false;
         
@@ -67,6 +67,7 @@ namespace _Script.Gameplay.Ropes.Checker
 
         private void SetIntersection(bool isIntersection)
         {
+            Debug.Log(isIntersection);
             ChangeIntersection?.Invoke(_rope, !isIntersection);
 
             _isInterception = isIntersection;

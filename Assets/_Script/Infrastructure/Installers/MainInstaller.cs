@@ -1,5 +1,6 @@
 ﻿using _Script.Gameplay.Ropes.Checker;
 using _Script.Gameplay.ScoreSystem;
+using _Script.Gameplay.SkipButton;
 using _Script.Gameplay.WinSystem.Checker;
 using _Script.Gameplay.WinSystem.WinUi;
 using _Script.Infrastructure.Bootstrap;
@@ -41,6 +42,7 @@ namespace _Script.Infrastructure.Installers
             builder.Register<INodeFactory, NodeFactory>(Lifetime.Singleton);
             builder.Register<IWinWindowFactory, WinWindowFactory>(Lifetime.Singleton).WithParameter(_dynamicCanvas);
             builder.Register<IScoresFactory, ScoresFactory>(Lifetime.Singleton).WithParameter(_dynamicCanvas);
+            builder.Register<ISkipButtonFactory, SkipButtonFactory>(Lifetime.Singleton).WithParameter(_dynamicCanvas);
         }
 
         private void RegisterDataServices(IContainerBuilder builder)
@@ -62,6 +64,7 @@ namespace _Script.Infrastructure.Installers
         {
             builder.Register<IWinPresenter, WinPresenter>(Lifetime.Singleton);
             builder.Register<IScorePresenter, ScorePresenter>(Lifetime.Singleton);
+            builder.Register<ISkipPresenter, SkipPresenter>(Lifetime.Singleton);
         }
     }
 }

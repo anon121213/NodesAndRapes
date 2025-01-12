@@ -29,6 +29,7 @@ namespace _Script.Infrastructure.Data.StaticData
         [field: SerializeField] public AssetReferenceGameObject RopeReference { get; private set; }
         [field: SerializeField] public AssetReferenceGameObject WinWindowReference { get; private set; }
         [field: SerializeField] public AssetReferenceGameObject ScoreReference { get; private set; }
+        [field: SerializeField] public AssetReferenceGameObject SkipButtonReference { get; private set; }
     }
     
     [CreateAssetMenu(fileName = "NodesGeneratorConfig", menuName = "Data/Configs/NodesGeneratorConfig")]

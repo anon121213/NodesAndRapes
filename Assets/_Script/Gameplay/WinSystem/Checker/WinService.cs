@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using _Script.Gameplay.Ropes;
-using UnityEngine;
 
 namespace _Script.Gameplay.WinSystem.Checker
 {
@@ -21,13 +20,19 @@ namespace _Script.Gameplay.WinSystem.Checker
 
         public void RemoveRope(Rope rope)
         {
-            if (_ropes.ContainsKey(rope)) 
-                _ropes.Remove(rope);
+            if (!_ropes.ContainsKey(rope))
+                return;
+            
+            rope.IntersectionChecker.ChangeIntersection -= ChangeWinGrade;
+            _ropes.Remove(rope);
         }
 
         public void Restart() => 
             IsWin = false;
 
+        public void SkipLevel() =>
+            IsWin = true;
+        
         private void ChangeWinGrade(Rope rope, bool check)
         {
             _ropes[rope] = check;
@@ -35,7 +40,6 @@ namespace _Script.Gameplay.WinSystem.Checker
             if (!CheckWin()) 
                 return;
             
-            Debug.Log("win");
             IsWin = true;
             OnWin?.Invoke();
         }
@@ -54,12 +58,12 @@ namespace _Script.Gameplay.WinSystem.Checker
     {
         void AddRope(Rope rope);
         void RemoveRope(Rope rope);
-      
     }
 
     public interface IWineble
     {
         void Restart();
+        void SkipLevel();
         bool IsWin { get; }
         event Action OnWin;
     }
